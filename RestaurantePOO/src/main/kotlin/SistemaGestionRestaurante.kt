@@ -1,15 +1,47 @@
-class SistemaGestionRestaurante(private val mesas: List<Mesa>) {
+class SistemaGestionRestaurante(private val mesas: MutableList<Mesa>) {
 
     fun realizarPedido(numeroMesa: Int, pedido: Pedido) {
-        
+        for (mesa in mesas) {
+            if (mesa.estado == "ocupada") {
+                mesa.pedidos.add(pedido)
+                break
+            }
+        }
     }
 
     fun cerrarPedido(numeroMesa: Int, numeroPedido: Int? = null) {
-        //TODO desarrollar este método...
+        if (numeroPedido == null) {
+            val mesa = mesas[numeroMesa]
+            val pedidos = mesa.pedidos
+            val pedido = pedidos.lastOrNull()
+            if (pedido != null) {
+                pedido.estado = "servido"
+                pedidos[pedidos.size - 1] = pedido
+                mesa.pedidos = pedidos
+                mesas[numeroMesa] = mesa
+            }
+        }
+        else {
+            val mesa = mesas[numeroMesa]
+            val pedidos = mesa.pedidos
+            val pedido = pedidos.find { it.numero == numeroPedido }
+            if (pedido != null) {
+                pedido.estado = "servido"
+                pedidos[numeroPedido] = pedido
+                mesa.pedidos = pedidos
+                mesas[numeroMesa] = mesa
+            }
+        }
     }
 
     fun cerrarMesa(numeroMesa: Int) {
-        //TODO desarrollar este método...
+        val mesa = mesas[numeroMesa]
+        val pedidos = mesa.pedidos
+        val cerrar = pedidos.all { it.estado == "servido" }
+        if (cerrar) {
+            mesa.liberarMesa()
+            mesas[numeroMesa] = mesa
+        }
     }
 
     fun buscarPlatos(): List<String>? {

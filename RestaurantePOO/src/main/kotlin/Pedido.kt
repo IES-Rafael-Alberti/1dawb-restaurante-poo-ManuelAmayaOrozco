@@ -1,6 +1,10 @@
-class Pedido(val numero: Int = generarnumPedido(),
-             val platos: MutableList<Plato>,
-             var estado: String = "pendiente") {
+class Pedido() {
+
+    val numero: Int = generarnumPedido()
+
+    val platos: MutableList<Plato> = mutableListOf<Plato>()
+
+    var estado: String = "pendiente"
 
     val precio = calcularPrecio()
 

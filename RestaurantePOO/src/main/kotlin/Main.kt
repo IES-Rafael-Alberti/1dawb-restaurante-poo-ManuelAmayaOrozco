@@ -1,6 +1,6 @@
 fun main() {
     // Inicialización de mesas
-    val mesas = listOf(
+    val mesas = mutableListOf(
         Mesa(numero = 1, capacidad = 4),
         Mesa(numero = 2, capacidad = 2),
         Mesa(numero = 3, capacidad = 6)
